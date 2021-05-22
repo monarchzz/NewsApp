@@ -3,15 +3,15 @@ A news application for Android
 
 ##  Light mode
 
-![Breaking news](https://lh3.googleusercontent.com/pw/ACtC-3cwX2HjdcHn_wLuxybECBgdVoaU5LuWH1Kx6NVGem0bEIylJphb48yEoPmkktvAaLzHK3Ptl2FFzt7D7wv2KDqUp5HwQiwSfVHdTNUItOIBgfjZwpGDukp07BnO7jopNAF0NXN-8MFJGzAs0I5UK5XV=w450-h799-no?authuser=0)
-![Setting](https://lh3.googleusercontent.com/pw/ACtC-3eZSoJEJbYbaeU8UMxy-iRlNG6e7ungVXDxnKfdZ8HEbgv3hzsJa74wNhZWNmzJOxrJflrKxCEQDV10AmlP_rDbJkyDCLMIbHMoWaaM8fNWjQfAAXBNOaBiCCzlWmBNRx1TzuTRY237PFmy0zRiEjsA=w450-h799-no?authuser=0)
-![Search](https://lh3.googleusercontent.com/pw/ACtC-3eLkl3zPOhqiWzdBRChId9305M88TyByZ_kMPt7RVtA2Memb-erpXKonmIPRevLZxMfrTf-PIZ_BIPg7D-gCz27Ps-R0pzfv-s-pGNNMxMjwJBKE9TZXg5tjyVEWR173dObPziOqSN_2Wr85Apkfo9t=w450-h799-no?authuser=0)
-![Article](https://lh3.googleusercontent.com/pw/ACtC-3cafkP0oM_IMry-r0X9h0i1apdhi4AVgBcwLCpewe5EwSwTuacNglMVjBYz5s1RM9jySQq9J350mYu1lV369RxNxm64u_JYEUe9-vp5px93o1Aavq3_p_P94PHE4gc6a_uVqpp1S9UB-uvLuK31QchP=w450-h799-no?authuser=0)
-![More](https://lh3.googleusercontent.com/pw/ACtC-3drEgcszs6z0UyYmQoS5FSfxbKcr8VOYsLVlQ_b2eOqITnAqEn-DAQDc2ybth03w5id4CVcmj9aeb7R8deZxnTQbSHf5lG_TaYbnwKV2-h8MbO9jqURw-d7ZoBW25_ofaI_Jo_BotZqQCGAv8Mh1CWz=w450-h799-no?authuser=0)
+![Breaking news](https://lh3.googleusercontent.com/pw/ACtC-3dcEPAtVz4JCCDFg8Je-mn9Sn-7yW10ZIrgY1IZq98VWU6T3wLqVa8jj5eXgwOmlYpA3p4GY6h8ZVCw3pRVh30NNVq-CrxZrChrGjrT-nOc6TBdlcmWEotTH596DlKLBlDJ9mNA7g4bKWgFu35YFiEV=w320-h568-no?authuser=0)
+![Setting](https://lh3.googleusercontent.com/pw/ACtC-3dBrc-3GU-796o3yO9X-TFd2MqNlYYh5W1OKs2M1_8nnmATZxyXuUFbbqj81pfc0H6sWyCwIKwOHShs-Xl3c2JMbD8nfuesB2jLlQNrNO7qSS0c8_ucb5Hl-Y-XZVuRXB3oukNWbuJg2j6suzY2xS-O=w320-h568-no?authuser=0)
+![Search](https://lh3.googleusercontent.com/pw/ACtC-3c6bORxXsA_RRljs-CIgKk-7t_T8LB5wFI9TO_JeMDxGUkyqbe28db7BHPKo8Bc2bc1t8A4Fl4sKXNyGPU_9lGFtF2k-b3OBR6B9s8TJoVt0lkL6wabHB3UhOpFOlsrorgdOglmwNOTvpLsdalVuLMa=w320-h568-no?authuser=0)
+![Article](https://lh3.googleusercontent.com/pw/ACtC-3cD4LJ3IdrHSBXgUmFfZzlSQ_Blz4PgkUKawzPs1N6wOK_M1XatNwR2njftqwvMgawp0tC0GIOA1lGi1or5Wkvt_vyCGPFFbSbNl0sjD3Z4LCDry-_ka1b50Crs6e5reYTNznv6mZWX37m_lhX12L9-=w320-h568-no?authuser=0)
+![More](https://lh3.googleusercontent.com/pw/ACtC-3fqprKnyf3RBAuBV3jrylVuBmpt-wquucPz6Xy885-d3ANrBZJev5jSgtUSWeXWkgosshAGwOqANu-GbO2KYs4lrNMBODuuFtUIYyh6DPkJQSZQKk2e5wmkfbojoo7kTnjz124b_dgQl2ZD04frymay=w320-h568-no?authuser=0)
 
 ## Dark mode
 
-![Breaking news](https://lh3.googleusercontent.com/pw/ACtC-3ezV3Lw0lt-ToPiDCd56OahPc7gLT6i2Y9ti2_4_H1bO7t-Tx58weeP3vszDFx445bZ1TiHKyAsDRiZXWX0TmBH6hhhUW1upAx9r_ZVG21Uu0aUAfo1Di9Q9XPGHD2yQDxQmhZpoDZFwPBDbFsk-IV8=w450-h799-no?authuser=0)
-![Setting](https://lh3.googleusercontent.com/pw/ACtC-3ekBPwE-Tv8I9ej2yU190lY7xiHwnoCuiKJb8CCv1-r8ImkLlw6806AuOXMO9jPaFfa8YxXO-s2HaumhbLXPeQiy117bxgwsy-F8PYN6erIko15T7UZ6qGL7h0pPz0Jc5isuwSVhIFtglsQlAlKLzOu=w450-h799-no?authuser=0)
-![Search](https://lh3.googleusercontent.com/pw/ACtC-3ceQh4NUi0Ud79_01lfr_bi4CQ7S4KvNPB-zv1_DTPACLwAne0kGg-jvY5tCDy4mmGfKWpHEgJWEFGD1YTTS6_AKKkpKo_rZ1Mk9In8TtcC4vq2TiZTOLZLb6_uRHKnFVwnYpGeClydo5cnzfHGUbKF=w450-h799-no?authuser=0)
-![More](https://lh3.googleusercontent.com/pw/ACtC-3equVNFFuWOzkMum0hD09_DQOXqYbQHhsMAdnoeM7kdr3SzA-zVaOMyLcxSqBWe-ujUy0S8NMERpCyAc1Iehu_Ov9rOJou_DSsaCXzimfXOXrqMLn5WAKLzB_0dD7sybva2ri9dSGg_DZHq74v9DP2T=w450-h799-no?authuser=0)
+![Breaking news](https://lh3.googleusercontent.com/pw/ACtC-3d2OFf6UGV1B2WhjGMqX3x5zyQ0S_mgHZ-1nGqPImVqsvpY4yByHR9wMjUWge1yqIE4prOyn8OK3VmmE4dLZkuzJvDufPNB7x6iDdXMi2NAb-FvDaarutQTZMKDFQfVGBLgGhYaVXhLFCDWrtVK0q_7=w320-h568-no?authuser=0)
+![Setting](https://lh3.googleusercontent.com/pw/ACtC-3f0DaaurvJXkf7QYRty_KQdCu4WjjNNMeerDMoWRQqEqSIsrzs4Q3YB1gUbnF4z0md2yMF4FuwCC5uBmLyUoNqKyKH7GXkyVI_phuOih_Gf25P3XH3QglUYg0FfJxPH9ZQ4Kvbm0fJYgMHaxilffXvC=w320-h568-no?authuser=0)
+![Search](https://lh3.googleusercontent.com/pw/ACtC-3ekMDV69rJ2fEwQEQqjJjbOb3UqVQPTr0X3G2C9XgFDhoieiYxk4Rn20UsF2r7HN9xevCR7NsHfU308ZPwxyDx4KZ3s_NMGYZuglNY7x1PTWisyqYYNOzTKJ0BAZgfOjrQPAfXWnhVductMtj-gXG3A=w320-h568-no?authuser=0)
+![More](https://lh3.googleusercontent.com/pw/ACtC-3dnbBMQk_pqnsG7SJ9i3kGvlSLiJjloZ0s0wmsGDDiZEzfniGsolvjwKfhcqmC5kgmrIYrpbekgs5NGGFx90_rcyYfiwi0mjwRz2Ea8yLFE5KkH-v7zuV5ncMQX8mU0sbr_jsoRcN_s-NIyFLWaT7SP=w320-h568-no?authuser=0)
