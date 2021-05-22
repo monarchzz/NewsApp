@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">NewsApp</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="news">News</string>
+    <string name="saved_news">Saved News</string>
+    <string name="search_news">Search news</string>
+    <string name="save_news">Save news</string>
+    <string name="more_option">More option</string>
+    <string name="icon">icon</string>
+    <string name="news_list_title">Breaking News</string>
+    <string name="search">Search</string>
+    <string name="setting">Setting</string>
+    <string name="share">Share</string>
+    <string name="appearance">Appearance</string>
+    <string name="choose_theme">Choose theme</string>
+    <string name="light_theme">Light Theme</string>
+    <string name="dark_theme">Dark Theme</string>
+
+</resources>

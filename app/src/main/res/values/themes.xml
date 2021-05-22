@@ -1,0 +1,55 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.NewsApp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/light_primary</item>
+        <item name="colorPrimaryVariant">@color/light_primary_variant</item>
+        <item name="colorOnPrimary">@color/light_on_primary</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/light_secondary</item>
+        <item name="colorSecondaryVariant">@color/light_secondary_variant</item>
+        <item name="colorOnSecondary">@color/light_on_secondary</item>
+        <!--add custom theme-->
+        <item name="colorError">@color/light_error</item>
+        <item name="colorOnError">@color/light_on_error</item>
+        <item name="colorSurface">@color/light_surface</item>
+        <item name="colorOnSurface">@color/light_on_surface</item>
+        <item name="android:colorBackground">@color/light_background</item>
+        <item name="colorOnBackground">@color/light_on_background</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <!-- Customize your theme here. -->
+
+        <item name="textAppearanceButton">@style/AppTextAppearance.Button</item>
+        <item name="materialButtonStyle">@style/AppButton</item>
+        <item name="toolbarStyle">@style/Widget.MaterialComponents.Toolbar</item>
+
+        <item name="background_color">@color/light_background</item>
+        <item name="text_color">@color/light_on_background</item>
+        <item name="icon_color">@color/light_icon</item>
+
+        <item name="autoCompleteTextViewStyle">@style/searchViewStyle</item>
+    </style>
+    
+    <style name="searchViewStyle" parent="Widget.AppCompat.AutoCompleteTextView">
+        <item name="android:textColor">@color/light_on_background</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:textColorHint">@color/light_on_background</item>
+    </style>
+
+    <style name="AppButton" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundTint">?attr/colorSecondary</item>
+    </style>
+
+    <style name="AppTextAppearance.Button" parent="TextAppearance.MaterialComponents.Button">
+        <item name="android:textAllCaps">false</item>
+    </style>
+
+    <style name="Theme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="SplashscreenTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash_background_light</item>
+    </style>
+</resources>
