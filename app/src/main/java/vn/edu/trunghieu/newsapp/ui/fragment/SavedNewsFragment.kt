@@ -10,10 +10,9 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.Dispatchers
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import vn.edu.trunghieu.newsapp.R
 import vn.edu.trunghieu.newsapp.adapters.NewsAdapter
 import vn.edu.trunghieu.newsapp.databinding.ActivityNewsBinding
@@ -24,40 +23,43 @@ import vn.edu.trunghieu.newsapp.ui.activity.news.NewsActivity
 import vn.edu.trunghieu.newsapp.ui.activity.news.NewsViewModel
 import vn.edu.trunghieu.newsapp.ui.activity.NewsPageActivity
 import vn.edu.trunghieu.newsapp.ui.activity.article.ArticleActivity
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class SavedNewsFragment : Fragment() {
     private var _binding: FragmentSavedNewsBinding? = null
     private val binding get() = _binding!!
     private lateinit var activityNewsBinding : ActivityNewsBinding
 
     private lateinit var viewModel: NewsViewModel
-    private lateinit var newsAdapter: NewsAdapter
+
+    @Inject lateinit var newsAdapter: NewsAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentSavedNewsBinding.inflate(inflater, container, false)
+
+        viewModel = (activity as NewsActivity).viewModel
+
+        activityNewsBinding = (activity as NewsActivity).binding
+        activityNewsBinding.toolbarTitle.text = getString(R.string.saved_news)
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = (activity as NewsActivity).viewModel
-        activityNewsBinding = (activity as NewsActivity).binding
 
-        activityNewsBinding.appBar.visibility = View.VISIBLE
-        activityNewsBinding.toolbarTitle.text = getString(R.string.saved_news)
 
         setupRecyclerView()
 
         newsAdapter.apply {
             setOnItemClickListener { article ->
                 MainScope().launch {
-                    val isSavedNews =
-                        withContext(Dispatchers.Default) {
-                            viewModel.isArticleSaved(article)
-                        }
+                    val isSavedNews = viewModel.isArticleSaved(article)
+
                     val intent: Intent = Intent(activity,
                         ArticleActivity::class.java).apply {
 
@@ -77,7 +79,7 @@ class SavedNewsFragment : Fragment() {
         }
 
         viewModel.getSaveNews().observe(viewLifecycleOwner, { articles ->
-            newsAdapter.setData(articles)
+            newsAdapter.submitList(articles)
         })
 
 
@@ -96,10 +98,8 @@ class SavedNewsFragment : Fragment() {
             when(itemObjectBottomSheet){
                 is ItemObjectBottomSheet.Delete -> {
                     MainScope().launch {
-                        val articleInDB =
-                            withContext(Dispatchers.Default) {
-                                viewModel.findArticleFromDB(article)
-                            }
+                        val articleInDB = viewModel.findArticleFromDB(article)
+
                         articleInDB?.let {
                             viewModel.deleteNews(it)
                         }
@@ -156,7 +156,7 @@ class SavedNewsFragment : Fragment() {
 
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
             val position = viewHolder.adapterPosition
-            val article = newsAdapter.getListData()[position]
+            val article = newsAdapter.currentList[position]
 
             viewModel.deleteNews(article)
 
@@ -171,7 +171,6 @@ class SavedNewsFragment : Fragment() {
 
     }
     private fun setupRecyclerView(){
-        newsAdapter = NewsAdapter()
         binding.rvSavedNews.apply {
             adapter = newsAdapter
             layoutManager = LinearLayoutManager(activity)

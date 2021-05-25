@@ -8,27 +8,26 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import dagger.hilt.android.AndroidEntryPoint
 import vn.edu.trunghieu.newsapp.R
 import vn.edu.trunghieu.newsapp.databinding.ActivityNewsBinding
-import vn.edu.trunghieu.newsapp.db.ArticleDatabase
-import vn.edu.trunghieu.newsapp.repository.NewsRepository
 import vn.edu.trunghieu.newsapp.ui.activity.searchnews.SearchNewsActivity
-import vn.edu.trunghieu.newsapp.util.AppSetting
 import vn.edu.trunghieu.newsapp.util.ApplicationBroadcastReceiver
-import vn.edu.trunghieu.newsapp.util.Constants.Companion.THEME_DARK
-import vn.edu.trunghieu.newsapp.util.Constants.Companion.THEME_LIGHT
+import javax.inject.Inject
 import android.net.ConnectivityManager as ConnectivityManager
 
+@AndroidEntryPoint
 class NewsActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityNewsBinding
-    lateinit var viewModel: NewsViewModel
 
-    lateinit var applicationBroadcastReceiver: ApplicationBroadcastReceiver
+    @Inject lateinit var applicationBroadcastReceiver: ApplicationBroadcastReceiver
+    val viewModel: NewsViewModel by viewModels()
 
     private var firstTimeInternetDisconnect: Boolean = false
 
@@ -53,12 +52,6 @@ class NewsActivity : AppCompatActivity() {
         binding.apply {
             bottomNavigationView.setupWithNavController(navController)
         }
-
-        applicationBroadcastReceiver = ApplicationBroadcastReceiver()
-
-        val newsRepository = NewsRepository(ArticleDatabase(this))
-        val factory = NewsViewModelProviderFactory(applicationBroadcastReceiver,newsRepository)
-        viewModel = ViewModelProvider(this,factory).get(NewsViewModel::class.java)
 
         firstTimeInternetDisconnect = false
         applicationBroadcastReceiver.hasInternetConnection.observe(this, { hasInternetConnection ->

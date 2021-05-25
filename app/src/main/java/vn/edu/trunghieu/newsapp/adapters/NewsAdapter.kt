@@ -5,20 +5,21 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import vn.edu.trunghieu.newsapp.databinding.ItemArticleBinding
 import vn.edu.trunghieu.newsapp.model.Article
-import vn.edu.trunghieu.newsapp.model.ItemObjectBottomSheet
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
+import javax.inject.Inject
 
-class NewsAdapter : RecyclerView.Adapter<NewsAdapter.ArticleViewHolder>() {
+class NewsAdapter @Inject constructor() : ListAdapter<Article, NewsAdapter.ArticleViewHolder>(ArticleDiffCallback()) {
 
     class ArticleViewHolder(val binding: ItemArticleBinding) : RecyclerView.ViewHolder(binding.root)
 
-    private val differCallback = object : DiffUtil.ItemCallback<Article>(){
+    class ArticleDiffCallback : DiffUtil.ItemCallback<Article>(){
         override fun areItemsTheSame(oldItem: Article, newItem: Article): Boolean {
             return oldItem.url == newItem.url
         }
@@ -27,13 +28,6 @@ class NewsAdapter : RecyclerView.Adapter<NewsAdapter.ArticleViewHolder>() {
             return oldItem == newItem
         }
     }
-
-    private val differ = AsyncListDiffer(this, differCallback)
-    fun setData(data: List<Article>){
-        differ.submitList(data)
-    }
-    fun getListData(): List<Article> = differ.currentList
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticleViewHolder {
         return ArticleViewHolder(
@@ -45,9 +39,8 @@ class NewsAdapter : RecyclerView.Adapter<NewsAdapter.ArticleViewHolder>() {
         )
     }
 
-
     override fun onBindViewHolder(holder: ArticleViewHolder, position: Int) {
-        val article = differ.currentList[position]
+        val article = currentList[position]
         holder.binding.apply {
             Glide.with(holder.itemView)
                 .load(article.urlToImage)
@@ -81,12 +74,6 @@ class NewsAdapter : RecyclerView.Adapter<NewsAdapter.ArticleViewHolder>() {
             }
         }
 
-
-
-    }
-
-    override fun getItemCount(): Int {
-        return differ.currentList.size
     }
 
     private var onItemClickListener: ((Article) -> Unit)? = null

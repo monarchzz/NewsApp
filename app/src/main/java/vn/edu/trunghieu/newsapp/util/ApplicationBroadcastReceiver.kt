@@ -7,23 +7,26 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
 import androidx.lifecycle.MutableLiveData
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class ApplicationBroadcastReceiver : BroadcastReceiver() {
+@Singleton
+class ApplicationBroadcastReceiver @Inject constructor() : BroadcastReceiver() {
     val hasInternetConnection : MutableLiveData<Boolean> by lazy {
         MutableLiveData<Boolean>()
     }
 
-    companion object{
-        @Volatile
-        private var instance : ApplicationBroadcastReceiver? = null
-        private val LOCK = Any()
-
-        operator fun invoke() = instance ?: synchronized(LOCK){
-            instance ?: ApplicationBroadcastReceiver().let {
-                instance = it
-            }
-        }
-    }
+//    companion object{
+//        @Volatile
+//        private var instance : ApplicationBroadcastReceiver? = null
+//        private val LOCK = Any()
+//
+//        operator fun invoke() = instance ?: synchronized(LOCK){
+//            instance ?: ApplicationBroadcastReceiver().let {
+//                instance = it
+//            }
+//        }
+//    }
 
     override fun onReceive(context: Context?, intent: Intent?) {
 //        hasInternetConnection.postValue(true)

@@ -9,19 +9,18 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.widget.AbsListView
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 import vn.edu.trunghieu.newsapp.R
 import vn.edu.trunghieu.newsapp.adapters.NewsAdapter
 import vn.edu.trunghieu.newsapp.databinding.ActivitySearchNewsBinding
-import vn.edu.trunghieu.newsapp.db.ArticleDatabase
 import vn.edu.trunghieu.newsapp.model.Article
 import vn.edu.trunghieu.newsapp.model.ItemObjectBottomSheet
-import vn.edu.trunghieu.newsapp.repository.NewsRepository
 import vn.edu.trunghieu.newsapp.ui.fragment.BottomSheetFragment
 import vn.edu.trunghieu.newsapp.ui.activity.NewsPageActivity
 import vn.edu.trunghieu.newsapp.ui.activity.article.ArticleActivity
@@ -31,14 +30,16 @@ import vn.edu.trunghieu.newsapp.util.Constants.Companion.LIMIT_PAGE
 import vn.edu.trunghieu.newsapp.util.Constants.Companion.QUERY_PAGE_SIZE
 import vn.edu.trunghieu.newsapp.util.Constants.Companion.SEARCH_NEWS_TIME_DELAY
 import vn.edu.trunghieu.newsapp.util.Resource
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class SearchNewsActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySearchNewsBinding
 
-    private lateinit var applicationBroadcastReceiver: ApplicationBroadcastReceiver
-    private lateinit var viewModel: SearchNewsViewModel
+    @Inject lateinit var applicationBroadcastReceiver: ApplicationBroadcastReceiver
+    private val viewModel: SearchNewsViewModel by viewModels()
 
-    private lateinit var newsAdapter: NewsAdapter
+    @Inject lateinit var newsAdapter: NewsAdapter
 
     private var isLoading = false
     private var isScrolling = false
@@ -86,7 +87,6 @@ class SearchNewsActivity : AppCompatActivity() {
     }
 
     private fun setupRecyclerView(){
-        newsAdapter = NewsAdapter()
         binding.rvSearchNews.apply {
             adapter = newsAdapter
             layoutManager = LinearLayoutManager(this@SearchNewsActivity)
@@ -96,10 +96,7 @@ class SearchNewsActivity : AppCompatActivity() {
         newsAdapter.apply {
             setOnItemClickListener { article ->
                 MainScope().launch {
-                    val isSavedNews =
-                        withContext(Dispatchers.Default) {
-                            viewModel.isArticleSaved(article)
-                        }
+                    val isSavedNews = viewModel.isArticleSaved(article)
                     val intent: Intent = Intent(this@SearchNewsActivity,
                         ArticleActivity::class.java).apply {
                         val bundle = Bundle().apply {
@@ -114,10 +111,8 @@ class SearchNewsActivity : AppCompatActivity() {
             }
             setOnClickMoreButtonListener { article ->
                 MainScope().launch {
-                    val isSavedNews =
-                        withContext(Dispatchers.Default) {
-                            viewModel.isArticleSaved(article)
-                        }
+                    val isSavedNews = viewModel.isArticleSaved(article)
+
                     clickOpenBottomSheet(article, isSavedNews)
                 }
             }
@@ -125,10 +120,6 @@ class SearchNewsActivity : AppCompatActivity() {
     }
 
     private fun setupViewModel() {
-        applicationBroadcastReceiver = ApplicationBroadcastReceiver()
-        val newsRepository = NewsRepository(ArticleDatabase(this))
-        val factory = SearchNewsViewModelProviderFactory(applicationBroadcastReceiver,newsRepository)
-        viewModel = ViewModelProvider(this,factory).get(SearchNewsViewModel::class.java)
 
         viewModel.clearSearchNews()
 
@@ -141,7 +132,7 @@ class SearchNewsActivity : AppCompatActivity() {
                         if (viewModel.searchNewsPage == 1){
                             newsResponse.articles.clear()
                         }
-                        newsAdapter.setData(newsResponse.articles.toList())
+                        newsAdapter.submitList(newsResponse.articles.toList())
 
                         var totalPage = newsResponse.totalResults / QUERY_PAGE_SIZE + 1
                         if (totalPage > LIMIT_PAGE){
@@ -177,6 +168,7 @@ class SearchNewsActivity : AppCompatActivity() {
             setHomeAsUpIndicator(drawable)
         }
     }
+
     private fun clickOpenBottomSheet(article: Article, isSavedNews: Boolean) {
         val dataList: List<ItemObjectBottomSheet> = mutableListOf(
             if (isSavedNews) ItemObjectBottomSheet.Delete() else ItemObjectBottomSheet.Save(),
@@ -194,10 +186,7 @@ class SearchNewsActivity : AppCompatActivity() {
                 }
                 is ItemObjectBottomSheet.Delete -> {
                     MainScope().launch {
-                        val articleInDB =
-                            withContext(Dispatchers.Default) {
-                                viewModel.findArticleFromDB(article)
-                            }
+                        val articleInDB = viewModel.findArticleFromDB(article)
                         articleInDB?.let {
                             viewModel.deleteNews(it)
                         }

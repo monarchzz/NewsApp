@@ -4,27 +4,26 @@ import android.content.Intent
 import android.graphics.drawable.Drawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import android.webkit.WebViewClient
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.ViewModelProvider
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import vn.edu.trunghieu.newsapp.R
 import vn.edu.trunghieu.newsapp.databinding.ActivityArticleBinding
-import vn.edu.trunghieu.newsapp.db.ArticleDatabase
 import vn.edu.trunghieu.newsapp.model.Article
-import vn.edu.trunghieu.newsapp.repository.NewsRepository
 import vn.edu.trunghieu.newsapp.ui.activity.NewsPageActivity
 
+@AndroidEntryPoint
 class ArticleActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityArticleBinding
-    private lateinit var viewModel: ArticleViewModel
+    private val viewModel: ArticleViewModel by viewModels()
 
     private var isSavedNews = false
 
@@ -41,10 +40,6 @@ class ArticleActivity : AppCompatActivity() {
                 .getDrawable(this@ArticleActivity, R.drawable.ic_baseline_arrow_back_24)
             setHomeAsUpIndicator(drawable)
         }
-
-        val repository = NewsRepository(ArticleDatabase(this))
-        val factory = ArticleViewModelProviderFactory(repository)
-        viewModel = ViewModelProvider(this, factory).get(ArticleViewModel::class.java)
 
         val article: Article = intent.extras?.getSerializable("article") as Article
         val num = intent.extras?.getInt("isSavedNews")

@@ -1,25 +1,27 @@
 package vn.edu.trunghieu.newsapp.repository
 
-import vn.edu.trunghieu.newsapp.api.RetrofitInstance
-import vn.edu.trunghieu.newsapp.db.ArticleDatabase
+import vn.edu.trunghieu.newsapp.api.NewsApi
+import vn.edu.trunghieu.newsapp.db.ArticleDao
 import vn.edu.trunghieu.newsapp.model.Article
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class NewsRepository(
-    private val db: ArticleDatabase
+@Singleton
+class NewsRepository @Inject constructor(
+    private val articleDao: ArticleDao,
+    private val api: NewsApi
 ) {
-    suspend fun getTopNewsHeadlines(country: String, pageNumber: Int) =
-        RetrofitInstance.api.getTopHeadlines(country,pageNumber)
+    suspend fun getTopNewsHeadlines(country: String, pageNumber: Int) = api.getTopHeadlines(country,pageNumber)
 
-    suspend fun searchForNews(searchQuery: String, pageNumber: Int) =
-        RetrofitInstance.api.searchForNews(searchQuery, pageNumber)
+    suspend fun searchForNews(searchQuery: String, pageNumber: Int) = api.searchForNews(searchQuery, pageNumber)
 
-    suspend fun insert(article: Article) = db.getArticleDao().insert(article)
+    suspend fun insert(article: Article) = articleDao.insert(article)
 
-    fun getSavedNews() = db.getArticleDao().getAllArticles()
+    fun getSavedNews() = articleDao.getAllArticles()
 
-    suspend fun findArticleFromDB(article: Article) = db.getArticleDao().findArticle(article.url)
+    suspend fun findArticleFromDB(article: Article) = articleDao.findArticle(article.url)
 
-    suspend fun articleCount(article: Article) = db.getArticleDao().articleCount(article.url)
+    suspend fun articleCount(article: Article) = articleDao.articleCount(article.url)
 
-    suspend fun deleteArticle(article: Article) = db.getArticleDao().deleteArticle(article)
+    suspend fun deleteArticle(article: Article) = articleDao.deleteArticle(article)
 }

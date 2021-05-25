@@ -10,8 +10,10 @@ import android.widget.AbsListView
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 import vn.edu.trunghieu.newsapp.R
 import vn.edu.trunghieu.newsapp.adapters.NewsAdapter
@@ -28,15 +30,18 @@ import vn.edu.trunghieu.newsapp.util.Constants
 import vn.edu.trunghieu.newsapp.util.Constants.Companion.COUNTRY
 import vn.edu.trunghieu.newsapp.util.Constants.Companion.QUERY_PAGE_SIZE
 import vn.edu.trunghieu.newsapp.util.Resource
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class NewsListFragment : Fragment() {
     private var _binding: FragmentNewsListBinding? = null
     private val binding get() = _binding!!
-    private lateinit var viewModel: NewsViewModel
     private lateinit var activityNewsBinding : ActivityNewsBinding
 
-    private lateinit var newsAdapter: NewsAdapter
-    private lateinit var applicationBroadcastReceiver: ApplicationBroadcastReceiver
+    @Inject lateinit var newsAdapter: NewsAdapter
+
+    @Inject lateinit var applicationBroadcastReceiver: ApplicationBroadcastReceiver
+    private lateinit var viewModel: NewsViewModel
 
     private var isLoading = false
     private var isScrolling = false
@@ -47,17 +52,17 @@ class NewsListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentNewsListBinding.inflate(inflater,container,false)
+
+        viewModel = (activity as NewsActivity).viewModel
+
+        activityNewsBinding = (activity as NewsActivity).binding
+        activityNewsBinding.toolbarTitle.text = getString(R.string.news_list_title)
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = (activity as NewsActivity).viewModel
-        activityNewsBinding = (activity as NewsActivity).binding
-        applicationBroadcastReceiver = (activity as NewsActivity).applicationBroadcastReceiver
-
-        activityNewsBinding.appBar.visibility = View.VISIBLE
-        activityNewsBinding.toolbarTitle.text = getString(R.string.news_list_title)
 
         setupRecyclerView()
         binding.swipeRefreshLayoutListNews.setOnRefreshListener {
@@ -67,10 +72,8 @@ class NewsListFragment : Fragment() {
         newsAdapter.apply {
             setOnItemClickListener { article ->
                 MainScope().launch {
-                    val isSavedNews =
-                        withContext(Dispatchers.Default) {
-                            viewModel.isArticleSaved(article)
-                        }
+                    val isSavedNews = viewModel.isArticleSaved(article)
+
                     val intent: Intent = Intent(activity,
                         ArticleActivity::class.java).apply {
 
@@ -86,10 +89,7 @@ class NewsListFragment : Fragment() {
             }
             setOnClickMoreButtonListener { article ->
                 MainScope().launch {
-                    val isSavedNews =
-                        withContext(Dispatchers.Default) {
-                            viewModel.isArticleSaved(article)
-                        }
+                    val isSavedNews = viewModel.isArticleSaved(article)
 
                     clickOpenBottomSheet(article, isSavedNews)
                 }
@@ -103,7 +103,7 @@ class NewsListFragment : Fragment() {
                 is Resource.Success -> {
                     hideProgressBar()
                     response.data?.let { newsResponse ->
-                        newsAdapter.setData(newsResponse.articles.toList())
+                        newsAdapter.submitList(newsResponse.articles.toList())
                         var totalPage = newsResponse.totalResults / QUERY_PAGE_SIZE + 1
                         if (totalPage > Constants.LIMIT_PAGE){
                             totalPage = Constants.LIMIT_PAGE
@@ -153,10 +153,8 @@ class NewsListFragment : Fragment() {
                 }
                 is ItemObjectBottomSheet.Delete -> {
                     MainScope().launch {
-                        val articleInDB =
-                            withContext(Dispatchers.Default) {
-                                viewModel.findArticleFromDB(article)
-                            }
+                        val articleInDB = viewModel.findArticleFromDB(article)
+
                         articleInDB?.let {
                             viewModel.deleteNews(it)
                         }
@@ -238,7 +236,6 @@ class NewsListFragment : Fragment() {
     }
 
     private fun setupRecyclerView(){
-        newsAdapter = NewsAdapter()
         binding.rvNewsList.apply {
             adapter = newsAdapter
             layoutManager = LinearLayoutManager(activity)

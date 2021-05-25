@@ -5,12 +5,16 @@ import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
+import dagger.hilt.android.qualifiers.ApplicationContext
 import vn.edu.trunghieu.newsapp.util.Constants.Companion.PREFERENCE_FILE_KEY
 import vn.edu.trunghieu.newsapp.util.Constants.Companion.THEME_DARK
 import vn.edu.trunghieu.newsapp.util.Constants.Companion.THEME_KEY
 import vn.edu.trunghieu.newsapp.util.Constants.Companion.THEME_LIGHT
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class AppSetting(context: Context) {
+@Singleton
+class AppSetting @Inject constructor(@ApplicationContext context: Context) {
 
     private val pref: SharedPreferences = context.getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE)
 
@@ -21,27 +25,10 @@ class AppSetting(context: Context) {
             apply()
         }
         field = value
-        changeTheme()
+        setDefaultTheme()
     }
 
-    init {
-        changeTheme()
-
-    }
-    companion object{
-        @Volatile
-        private var instance : AppSetting? = null
-        private val LOCK = Any()
-
-        operator fun invoke(context: Context) = instance ?: synchronized(LOCK){
-            instance ?: AppSetting(context).let {
-                instance = it
-            }
-        }
-    }
-
-
-    private fun changeTheme(){
+    fun setDefaultTheme(){
         AppCompatDelegate.setDefaultNightMode(when(theme){
             THEME_LIGHT -> MODE_NIGHT_NO
             THEME_DARK -> MODE_NIGHT_YES

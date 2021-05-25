@@ -1,23 +1,28 @@
 package vn.edu.trunghieu.newsapp.ui.activity.news
 
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
 import retrofit2.Response
+import vn.edu.trunghieu.newsapp.model.Article
 import vn.edu.trunghieu.newsapp.model.NewsResponse
 import vn.edu.trunghieu.newsapp.repository.NewsRepository
-import vn.edu.trunghieu.newsapp.ui.activity.article.ArticleViewModel
 import vn.edu.trunghieu.newsapp.util.ApplicationBroadcastReceiver
 import vn.edu.trunghieu.newsapp.util.Constants.Companion.COUNTRY
 import vn.edu.trunghieu.newsapp.util.Constants.Companion.GET_DATA_TIMEOUT
 import vn.edu.trunghieu.newsapp.util.Constants.Companion.INTERNET_STATE_DELAY
 import vn.edu.trunghieu.newsapp.util.Resource
 import java.io.IOException
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class NewsViewModel(
+@HiltViewModel
+class NewsViewModel @Inject constructor(
     private val applicationBroadcastReceiver: ApplicationBroadcastReceiver,
     private val newsRepository: NewsRepository
-) : ArticleViewModel( newsRepository) {
+) : ViewModel(){
 
     val topNewsHeadlines: MutableLiveData<Resource<NewsResponse>> = MutableLiveData()
     var topNewsHeadlinesPage = 1
@@ -33,6 +38,27 @@ class NewsViewModel(
     init {
         topNewsHeadlines.postValue(Resource.Loading())
         getTopNewsHeadlines(COUNTRY)
+    }
+
+    suspend fun isArticleSaved(article: Article) : Boolean {
+        val count = newsRepository.articleCount(article)
+        if (count > 0) return true
+        return false
+    }
+
+    suspend fun findArticleFromDB(article: Article) : Article?{
+        val list =  newsRepository.findArticleFromDB(article)
+        if (list.isEmpty())
+            return null
+        return list[0]
+    }
+
+    fun saveNews(article: Article) = viewModelScope.launch {
+        newsRepository.insert(article)
+    }
+
+    fun deleteNews(article: Article) = viewModelScope.launch {
+        newsRepository.deleteArticle(article)
     }
 
     fun getSaveNews() = newsRepository.getSavedNews()
