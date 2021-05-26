@@ -6,10 +6,10 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
 import dagger.hilt.android.qualifiers.ApplicationContext
-import vn.edu.trunghieu.newsapp.util.Constants.Companion.PREFERENCE_FILE_KEY
-import vn.edu.trunghieu.newsapp.util.Constants.Companion.THEME_DARK
-import vn.edu.trunghieu.newsapp.util.Constants.Companion.THEME_KEY
-import vn.edu.trunghieu.newsapp.util.Constants.Companion.THEME_LIGHT
+import vn.edu.trunghieu.newsapp.util.Constants.PREFERENCE_FILE_KEY
+import vn.edu.trunghieu.newsapp.util.Constants.THEME_DARK
+import vn.edu.trunghieu.newsapp.util.Constants.THEME_KEY
+import vn.edu.trunghieu.newsapp.util.Constants.THEME_LIGHT
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -25,10 +25,10 @@ class AppSetting @Inject constructor(@ApplicationContext context: Context) {
             apply()
         }
         field = value
-        setDefaultTheme()
+        applySettingTheme()
     }
 
-    fun setDefaultTheme(){
+    fun applySettingTheme(){
         AppCompatDelegate.setDefaultNightMode(when(theme){
             THEME_LIGHT -> MODE_NIGHT_NO
             THEME_DARK -> MODE_NIGHT_YES

@@ -11,8 +11,8 @@ import vn.edu.trunghieu.newsapp.databinding.ActivityNewsBinding
 import vn.edu.trunghieu.newsapp.databinding.FragmentSettingBinding
 import vn.edu.trunghieu.newsapp.ui.activity.news.NewsActivity
 import vn.edu.trunghieu.newsapp.util.AppSetting
-import vn.edu.trunghieu.newsapp.util.Constants.Companion.THEME_DARK
-import vn.edu.trunghieu.newsapp.util.Constants.Companion.THEME_LIGHT
+import vn.edu.trunghieu.newsapp.util.Constants.THEME_DARK
+import vn.edu.trunghieu.newsapp.util.Constants.THEME_LIGHT
 import javax.inject.Inject
 
 @AndroidEntryPoint

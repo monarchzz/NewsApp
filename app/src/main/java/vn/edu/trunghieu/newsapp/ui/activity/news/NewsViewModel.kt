@@ -10,13 +10,12 @@ import vn.edu.trunghieu.newsapp.model.Article
 import vn.edu.trunghieu.newsapp.model.NewsResponse
 import vn.edu.trunghieu.newsapp.repository.NewsRepository
 import vn.edu.trunghieu.newsapp.util.ApplicationBroadcastReceiver
-import vn.edu.trunghieu.newsapp.util.Constants.Companion.COUNTRY
-import vn.edu.trunghieu.newsapp.util.Constants.Companion.GET_DATA_TIMEOUT
-import vn.edu.trunghieu.newsapp.util.Constants.Companion.INTERNET_STATE_DELAY
+import vn.edu.trunghieu.newsapp.util.Constants.COUNTRY
+import vn.edu.trunghieu.newsapp.util.Constants.GET_DATA_TIMEOUT
+import vn.edu.trunghieu.newsapp.util.Constants.INTERNET_STATE_DELAY
 import vn.edu.trunghieu.newsapp.util.Resource
 import java.io.IOException
 import javax.inject.Inject
-import javax.inject.Singleton
 
 @HiltViewModel
 class NewsViewModel @Inject constructor(

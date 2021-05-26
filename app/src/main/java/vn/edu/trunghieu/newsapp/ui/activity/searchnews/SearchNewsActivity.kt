@@ -25,10 +25,10 @@ import vn.edu.trunghieu.newsapp.ui.fragment.BottomSheetFragment
 import vn.edu.trunghieu.newsapp.ui.activity.NewsPageActivity
 import vn.edu.trunghieu.newsapp.ui.activity.article.ArticleActivity
 import vn.edu.trunghieu.newsapp.util.ApplicationBroadcastReceiver
-import vn.edu.trunghieu.newsapp.util.Constants.Companion.COUNTRY
-import vn.edu.trunghieu.newsapp.util.Constants.Companion.LIMIT_PAGE
-import vn.edu.trunghieu.newsapp.util.Constants.Companion.QUERY_PAGE_SIZE
-import vn.edu.trunghieu.newsapp.util.Constants.Companion.SEARCH_NEWS_TIME_DELAY
+import vn.edu.trunghieu.newsapp.util.Constants.COUNTRY
+import vn.edu.trunghieu.newsapp.util.Constants.LIMIT_PAGE
+import vn.edu.trunghieu.newsapp.util.Constants.QUERY_PAGE_SIZE
+import vn.edu.trunghieu.newsapp.util.Constants.SEARCH_NEWS_TIME_DELAY
 import vn.edu.trunghieu.newsapp.util.Resource
 import javax.inject.Inject
 
