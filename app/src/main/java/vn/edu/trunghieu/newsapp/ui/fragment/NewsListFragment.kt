@@ -134,6 +134,9 @@ class NewsListFragment : Fragment() {
         if (hasInternetConnection != null && hasInternetConnection){
             viewModel.clearTopNewsHeadLines()
             viewModel.getTopNewsHeadlines(COUNTRY)
+        }else {
+            Toast.makeText(activity, "No internet connection", Toast.LENGTH_SHORT).show()
+            binding.swipeRefreshLayoutListNews.isRefreshing = false
         }
     }
 

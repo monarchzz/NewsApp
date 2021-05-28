@@ -16,20 +16,7 @@ class ApplicationBroadcastReceiver @Inject constructor() : BroadcastReceiver() {
         MutableLiveData<Boolean>()
     }
 
-//    companion object{
-//        @Volatile
-//        private var instance : ApplicationBroadcastReceiver? = null
-//        private val LOCK = Any()
-//
-//        operator fun invoke() = instance ?: synchronized(LOCK){
-//            instance ?: ApplicationBroadcastReceiver().let {
-//                instance = it
-//            }
-//        }
-//    }
-
     override fun onReceive(context: Context?, intent: Intent?) {
-//        hasInternetConnection.postValue(true)
         if (ConnectivityManager.CONNECTIVITY_ACTION == intent?.action){
             if (context?.let { isNetworkAvailable(it) } == true){
                 hasInternetConnection.postValue(true)
@@ -53,15 +40,7 @@ class ApplicationBroadcastReceiver @Inject constructor() : BroadcastReceiver() {
                 else -> false
             }
         }else {
-            connectivityManager.activeNetworkInfo?.run {
-                when(type){
-                    ConnectivityManager.TYPE_WIFI -> true
-                    ConnectivityManager.TYPE_MOBILE -> true
-                    ConnectivityManager.TYPE_ETHERNET -> true
-                    else -> false
-                }
-            }
+            return connectivityManager.activeNetworkInfo?.isConnected ?: false
         }
-        return false
     }
 }

@@ -73,7 +73,7 @@ class NewsViewModel @Inject constructor(
                     val response = newsRepository.getTopNewsHeadlines(country, topNewsHeadlinesPage)
                     topNewsHeadlines.postValue(handleTopNewsHeadlinesResponse(response))
                 }else {
-                    topNewsHeadlines.postValue(Resource.Error("No internet connection in newsList"))
+                    topNewsHeadlines.postValue(Resource.Error("No internet connection"))
                 }
             }
 
