@@ -7,13 +7,11 @@ import android.net.ConnectivityManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
-import android.widget.AbsListView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 import vn.edu.trunghieu.newsapp.R
@@ -43,7 +41,6 @@ class SearchNewsActivity : AppCompatActivity() {
     @Inject lateinit var newsAdapter: NewsAdapter
 
     private var isLoading = false
-    private var isScrolling = false
     private var isLastPage = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
