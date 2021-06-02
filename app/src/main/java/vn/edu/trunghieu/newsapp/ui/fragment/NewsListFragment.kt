@@ -6,13 +6,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AbsListView
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 import vn.edu.trunghieu.newsapp.R
@@ -21,6 +18,7 @@ import vn.edu.trunghieu.newsapp.databinding.ActivityNewsBinding
 import vn.edu.trunghieu.newsapp.databinding.FragmentNewsListBinding
 import vn.edu.trunghieu.newsapp.model.Article
 import vn.edu.trunghieu.newsapp.model.ItemObjectBottomSheet
+import vn.edu.trunghieu.newsapp.ui.PaginationScrollListener
 import vn.edu.trunghieu.newsapp.ui.activity.news.NewsActivity
 import vn.edu.trunghieu.newsapp.ui.activity.news.NewsViewModel
 import vn.edu.trunghieu.newsapp.ui.activity.NewsPageActivity
@@ -39,12 +37,11 @@ class NewsListFragment : Fragment() {
     private lateinit var activityNewsBinding : ActivityNewsBinding
 
     @Inject lateinit var newsAdapter: NewsAdapter
-
     @Inject lateinit var applicationBroadcastReceiver: ApplicationBroadcastReceiver
+
     private lateinit var viewModel: NewsViewModel
 
     private var isLoading = false
-    private var isScrolling = false
     private var isLastPage = false
 
     override fun onCreateView(
@@ -204,45 +201,28 @@ class NewsListFragment : Fragment() {
         isLoading = true
     }
 
-    private val scrollListener = object : RecyclerView.OnScrollListener(){
+    private val paginationScrollListener = object : PaginationScrollListener() {
 
-        override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-            super.onScrollStateChanged(recyclerView, newState)
-
-            val isTouchScroll = newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL
-            val isFling = newState == AbsListView.OnScrollListener.SCROLL_STATE_FLING
-            isScrolling = isFling || isTouchScroll
-
+        override fun isLoading(): Boolean {
+            return isLoading
         }
-        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-            super.onScrolled(recyclerView, dx, dy)
 
-            val layoutManager = recyclerView.layoutManager as LinearLayoutManager
-            val firstVisibleItem = layoutManager.findFirstVisibleItemPosition()
-            val visibleItemCount = layoutManager.childCount
-            val totalItemCount = layoutManager.itemCount
-
-            val isNotLoadingAndIsNotLastPage = !isLoading && !isLastPage
-            val isAtLastItem = firstVisibleItem + visibleItemCount >= totalItemCount
-            val isNotAtBeginning = firstVisibleItem > 0
-            val isTotalMoreThanVisible = totalItemCount >= QUERY_PAGE_SIZE
-
-
-            val shouldLoading = isNotLoadingAndIsNotLastPage && isAtLastItem
-                    && isNotAtBeginning && isTotalMoreThanVisible && isScrolling
-
-            if (shouldLoading){
-                viewModel.getTopNewsHeadlines(COUNTRY)
-                isLoading = true
-            }
+        override fun isLastPage(): Boolean {
+            return isLastPage
         }
+
+        override fun loadItem() {
+            viewModel.getTopNewsHeadlines(COUNTRY)
+            isLoading = true
+        }
+
     }
 
     private fun setupRecyclerView(){
         binding.rvNewsList.apply {
             adapter = newsAdapter
             layoutManager = LinearLayoutManager(activity)
-            addOnScrollListener(this@NewsListFragment.scrollListener)
+            addOnScrollListener(this@NewsListFragment.paginationScrollListener)
         }
         
     }

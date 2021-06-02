@@ -143,15 +143,14 @@ class SavedNewsFragment : Fragment() {
         activity?.let { bottomSheetFragment.show(it.supportFragmentManager, bottomSheetFragment.tag) }
     }
     private val itemTouchHelperCallBack = object : ItemTouchHelper.SimpleCallback(
-        ItemTouchHelper.UP or ItemTouchHelper.DOWN,
-        ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+        0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
     ){
         override fun onMove(
             recyclerView: RecyclerView,
             viewHolder: RecyclerView.ViewHolder,
             target: RecyclerView.ViewHolder
         ): Boolean {
-            return true
+            return false
         }
 
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {

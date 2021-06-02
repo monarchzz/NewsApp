@@ -21,6 +21,7 @@ import vn.edu.trunghieu.newsapp.adapters.NewsAdapter
 import vn.edu.trunghieu.newsapp.databinding.ActivitySearchNewsBinding
 import vn.edu.trunghieu.newsapp.model.Article
 import vn.edu.trunghieu.newsapp.model.ItemObjectBottomSheet
+import vn.edu.trunghieu.newsapp.ui.PaginationScrollListener
 import vn.edu.trunghieu.newsapp.ui.fragment.BottomSheetFragment
 import vn.edu.trunghieu.newsapp.ui.activity.NewsPageActivity
 import vn.edu.trunghieu.newsapp.ui.activity.article.ArticleActivity
@@ -90,7 +91,7 @@ class SearchNewsActivity : AppCompatActivity() {
         binding.rvSearchNews.apply {
             adapter = newsAdapter
             layoutManager = LinearLayoutManager(this@SearchNewsActivity)
-            addOnScrollListener(scrollListener)
+            addOnScrollListener(paginationScrollListener)
         }
 
         newsAdapter.apply {
@@ -226,37 +227,20 @@ class SearchNewsActivity : AppCompatActivity() {
         bottomSheetFragment.show(supportFragmentManager,bottomSheetFragment.tag)
     }
 
-    private val scrollListener = object : RecyclerView.OnScrollListener(){
-        override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-            super.onScrollStateChanged(recyclerView, newState)
-
-            val isTouchScroll = newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL
-            val isFling = newState == AbsListView.OnScrollListener.SCROLL_STATE_FLING
-            isScrolling = isFling || isTouchScroll
+    private val paginationScrollListener = object : PaginationScrollListener() {
+        override fun isLoading(): Boolean {
+            return isLoading
         }
 
-        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-            super.onScrolled(recyclerView, dx, dy)
-
-            val layoutManager = recyclerView.layoutManager as LinearLayoutManager
-            val firstVisibleItem = layoutManager.findFirstVisibleItemPosition()
-            val visibleItemCount = layoutManager.childCount
-            val totalItemCount = layoutManager.itemCount
-
-            val isNotLoadingAndIsNotLastPage = !isLoading && !isLastPage
-            val isAtLastItem = firstVisibleItem + visibleItemCount >= totalItemCount
-            val isNotAtBeginning = firstVisibleItem > 0
-            val isTotalMoreThanVisible = totalItemCount >= QUERY_PAGE_SIZE
-
-
-            val shouldLoading = isNotLoadingAndIsNotLastPage && isAtLastItem
-                    && isNotAtBeginning && isTotalMoreThanVisible && isScrolling
-
-            if (shouldLoading){
-                viewModel.searchNews(COUNTRY)
-                isScrolling = false
-            }
+        override fun isLastPage(): Boolean {
+            return isLastPage
         }
+
+        override fun loadItem() {
+            viewModel.searchNews(COUNTRY)
+            isLoading = false
+        }
+
     }
 
     override fun onStart() {
