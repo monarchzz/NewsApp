@@ -55,12 +55,6 @@ class NewsListFragment : Fragment() {
         activityNewsBinding = (activity as NewsActivity).binding
         activityNewsBinding.toolbarTitle.text = getString(R.string.news_list_title)
 
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
         setupRecyclerView()
         binding.swipeRefreshLayoutListNews.setOnRefreshListener {
             refreshData()
@@ -94,7 +88,6 @@ class NewsListFragment : Fragment() {
             }
         }
 
-
         viewModel.topNewsHeadlines.observe(viewLifecycleOwner, { response ->
             when(response){
                 is Resource.Success -> {
@@ -113,9 +106,9 @@ class NewsListFragment : Fragment() {
                 }
                 is Resource.Error -> {
                     hideProgressBar()
-                        response.message?.let { message ->
+                    response.message?.let { message ->
+                        if(message.isNotEmpty())
                             Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
-                            Log.i("TAG", "onViewCreated error: $message")
                     }
 
                 }
@@ -124,6 +117,9 @@ class NewsListFragment : Fragment() {
                 }
             }
         })
+
+        Log.i("TAG", "onCreateView: ")
+        return binding.root
     }
 
     private fun refreshData(){
@@ -230,6 +226,13 @@ class NewsListFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+
+        Log.i("TAG", "onDestroy: ")
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        Log.i("TAG", "onDestroyView: ")
     }
 
 }

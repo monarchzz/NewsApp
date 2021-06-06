@@ -46,13 +46,6 @@ class SavedNewsFragment : Fragment() {
         activityNewsBinding = (activity as NewsActivity).binding
         activityNewsBinding.toolbarTitle.text = getString(R.string.saved_news)
 
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-
         setupRecyclerView()
 
         newsAdapter.apply {
@@ -81,10 +74,9 @@ class SavedNewsFragment : Fragment() {
         viewModel.getSaveNews().observe(viewLifecycleOwner, { articles ->
             newsAdapter.submitList(articles)
         })
-
-
-
         ItemTouchHelper(itemTouchHelperCallBack).attachToRecyclerView(binding.rvSavedNews)
+
+        return binding.root
     }
 
     private fun clickOpenBottomSheet(article: Article) {
@@ -150,7 +142,7 @@ class SavedNewsFragment : Fragment() {
             viewHolder: RecyclerView.ViewHolder,
             target: RecyclerView.ViewHolder
         ): Boolean {
-            return false
+            return true
         }
 
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {

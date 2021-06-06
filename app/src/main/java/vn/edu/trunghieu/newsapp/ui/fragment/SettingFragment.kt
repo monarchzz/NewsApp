@@ -32,14 +32,9 @@ class SettingFragment : Fragment() {
         activityNewsBinding = (activity as NewsActivity).binding
         activityNewsBinding.toolbarTitle.text = getString(R.string.setting)
 
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
         settingTheme()
 
+        return binding.root
     }
 
     private fun settingTheme() {
