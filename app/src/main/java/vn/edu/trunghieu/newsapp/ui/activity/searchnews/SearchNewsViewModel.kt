@@ -39,7 +39,7 @@ class SearchNewsViewModel @Inject constructor(
                     val response = newsRepository.searchForNews(searchQuery, searchNewsPage)
                     searchNews.postValue(handleSearchForNewsResponse(response))
                 }else {
-                    searchNews.postValue(Resource.Error("No internet connection"))
+                    searchNews.postValue(Resource.Error(""))
                 }
             }
         }catch (t: TimeoutCancellationException){

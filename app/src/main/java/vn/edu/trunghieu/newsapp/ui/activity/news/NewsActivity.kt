@@ -57,13 +57,13 @@ class NewsActivity : AppCompatActivity() {
         }
 
         firstTimeInternetDisconnect = false
-        applicationBroadcastReceiver.setOnInternetStateChangeListener { internetState ->
-            if (internetState == ApplicationBroadcastReceiver.HAS_INTERNET_CONNECTION){
+        applicationBroadcastReceiver.hasInternetConnection.observe(this, { hasInternetConnection ->
+            if (hasInternetConnection){
                 if (firstTimeInternetDisconnect)
-                Snackbar.make(binding.root, "Internet connected", Snackbar.LENGTH_LONG).run {
-                    anchorView = binding.bottomNavigationView
-                    show()
-                }
+                    Snackbar.make(binding.root, "Internet connected", Snackbar.LENGTH_LONG).run {
+                        anchorView = binding.bottomNavigationView
+                        show()
+                    }
                 newsRepository.hasInternetConnection = true
 
             }else{
@@ -77,8 +77,7 @@ class NewsActivity : AppCompatActivity() {
                 newsRepository.hasInternetConnection = false
             }
             viewModel.getTopNewsHeadlines(COUNTRY)
-        }
-
+        })
 
     }
 
@@ -106,6 +105,7 @@ class NewsActivity : AppCompatActivity() {
         registerReceiver(applicationBroadcastReceiver, intentFilter)
         firstTimeInternetDisconnect = false // reset
     }
+
     override fun onStop() {
         super.onStop()
         unregisterReceiver(applicationBroadcastReceiver)

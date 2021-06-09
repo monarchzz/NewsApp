@@ -6,13 +6,13 @@ import android.graphics.drawable.Drawable
 import android.net.ConnectivityManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 import vn.edu.trunghieu.newsapp.R
@@ -57,10 +57,17 @@ class SearchNewsActivity : AppCompatActivity() {
 
         searchNews()
 
-        applicationBroadcastReceiver.setOnInternetStateChangeListener { internetState ->
-            newsRepository.hasInternetConnection = internetState == ApplicationBroadcastReceiver.HAS_INTERNET_CONNECTION
-        }
+        applicationBroadcastReceiver.hasInternetConnection.observe(this, { hasInternetConnection ->
+            newsRepository.hasInternetConnection = hasInternetConnection
+            showMessageInternetState()
+        })
 
+    }
+
+    private fun showMessageInternetState() {
+        if (!newsRepository.hasInternetConnection){
+            Snackbar.make(binding.root, "No internet connection", Snackbar.LENGTH_LONG).show()
+        }
     }
 
     private fun searchNews() {
@@ -86,6 +93,7 @@ class SearchNewsActivity : AppCompatActivity() {
     private fun searchNewsJob(text: String) = MainScope().launch {
         delay(SEARCH_NEWS_TIME_DELAY)
         if (text.isNotEmpty()){
+//            showMessageInternetState()
             viewModel.clearSearchNews()
             viewModel.searchNews(text)
         }
@@ -153,7 +161,8 @@ class SearchNewsActivity : AppCompatActivity() {
                     isLoading = false
 
                     response.message?.let { message ->
-                        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+                        if(message.isNotEmpty())
+                            Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
                     }
                 }
                 is Resource.Loading -> {
@@ -266,9 +275,7 @@ class SearchNewsActivity : AppCompatActivity() {
                 return true
             }
         }
-
         return super.onOptionsItemSelected(item)
-
     }
 
 }

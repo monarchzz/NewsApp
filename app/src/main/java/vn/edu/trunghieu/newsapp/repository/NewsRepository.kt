@@ -1,6 +1,5 @@
 package vn.edu.trunghieu.newsapp.repository
 
-import androidx.lifecycle.MutableLiveData
 import vn.edu.trunghieu.newsapp.api.NewsApi
 import vn.edu.trunghieu.newsapp.db.ArticleDao
 import vn.edu.trunghieu.newsapp.model.Article
