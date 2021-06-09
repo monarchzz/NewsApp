@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable
 import android.net.ConnectivityManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -23,7 +24,8 @@ import vn.edu.trunghieu.newsapp.ui.PaginationScrollListener
 import vn.edu.trunghieu.newsapp.ui.fragment.BottomSheetFragment
 import vn.edu.trunghieu.newsapp.ui.activity.NewsPageActivity
 import vn.edu.trunghieu.newsapp.ui.activity.article.ArticleActivity
-import vn.edu.trunghieu.newsapp.util.ApplicationBroadcastReceiver
+import vn.edu.trunghieu.newsapp.ApplicationBroadcastReceiver
+import vn.edu.trunghieu.newsapp.repository.NewsRepository
 import vn.edu.trunghieu.newsapp.util.Constants.COUNTRY
 import vn.edu.trunghieu.newsapp.util.Constants.LIMIT_PAGE
 import vn.edu.trunghieu.newsapp.util.Constants.QUERY_PAGE_SIZE
@@ -36,6 +38,7 @@ class SearchNewsActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySearchNewsBinding
 
     @Inject lateinit var applicationBroadcastReceiver: ApplicationBroadcastReceiver
+    @Inject lateinit var newsRepository: NewsRepository
     private val viewModel: SearchNewsViewModel by viewModels()
 
     @Inject lateinit var newsAdapter: NewsAdapter
@@ -53,6 +56,10 @@ class SearchNewsActivity : AppCompatActivity() {
         setupViewModel()
 
         searchNews()
+
+        applicationBroadcastReceiver.setOnInternetStateChangeListener { internetState ->
+            newsRepository.hasInternetConnection = internetState == ApplicationBroadcastReceiver.HAS_INTERNET_CONNECTION
+        }
 
     }
 

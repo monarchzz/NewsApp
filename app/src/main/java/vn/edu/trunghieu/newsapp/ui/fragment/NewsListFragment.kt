@@ -2,7 +2,6 @@ package vn.edu.trunghieu.newsapp.ui.fragment
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,7 +22,6 @@ import vn.edu.trunghieu.newsapp.ui.activity.news.NewsActivity
 import vn.edu.trunghieu.newsapp.ui.activity.news.NewsViewModel
 import vn.edu.trunghieu.newsapp.ui.activity.NewsPageActivity
 import vn.edu.trunghieu.newsapp.ui.activity.article.ArticleActivity
-import vn.edu.trunghieu.newsapp.util.ApplicationBroadcastReceiver
 import vn.edu.trunghieu.newsapp.util.Constants
 import vn.edu.trunghieu.newsapp.util.Constants.COUNTRY
 import vn.edu.trunghieu.newsapp.util.Constants.QUERY_PAGE_SIZE
@@ -37,7 +35,6 @@ class NewsListFragment : Fragment() {
     private lateinit var activityNewsBinding : ActivityNewsBinding
 
     @Inject lateinit var newsAdapter: NewsAdapter
-    @Inject lateinit var applicationBroadcastReceiver: ApplicationBroadcastReceiver
 
     private lateinit var viewModel: NewsViewModel
 
@@ -118,13 +115,12 @@ class NewsListFragment : Fragment() {
             }
         })
 
-        Log.i("TAG", "onCreateView: ")
         return binding.root
     }
 
     private fun refreshData(){
-        val hasInternetConnection = applicationBroadcastReceiver.hasInternetConnection.value
-        if (hasInternetConnection != null && hasInternetConnection){
+        val hasInternetConnection = (activity as NewsActivity).newsRepository.hasInternetConnection
+        if (hasInternetConnection){
             viewModel.clearTopNewsHeadLines()
             viewModel.getTopNewsHeadlines(COUNTRY)
         }else {
@@ -227,12 +223,7 @@ class NewsListFragment : Fragment() {
         super.onDestroy()
         _binding = null
 
-        Log.i("TAG", "onDestroy: ")
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        Log.i("TAG", "onDestroyView: ")
-    }
 
 }

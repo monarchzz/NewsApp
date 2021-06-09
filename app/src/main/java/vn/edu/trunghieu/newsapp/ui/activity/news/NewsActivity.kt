@@ -5,18 +5,21 @@ import android.content.IntentFilter
 import android.graphics.drawable.Drawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import vn.edu.trunghieu.newsapp.R
 import vn.edu.trunghieu.newsapp.databinding.ActivityNewsBinding
 import vn.edu.trunghieu.newsapp.ui.activity.searchnews.SearchNewsActivity
-import vn.edu.trunghieu.newsapp.util.ApplicationBroadcastReceiver
+import vn.edu.trunghieu.newsapp.ApplicationBroadcastReceiver
+import vn.edu.trunghieu.newsapp.repository.NewsRepository
+import vn.edu.trunghieu.newsapp.util.Constants.COUNTRY
 import javax.inject.Inject
 import android.net.ConnectivityManager as ConnectivityManager
 
@@ -26,6 +29,7 @@ class NewsActivity : AppCompatActivity() {
     lateinit var binding: ActivityNewsBinding
 
     @Inject lateinit var applicationBroadcastReceiver: ApplicationBroadcastReceiver
+    @Inject lateinit var newsRepository: NewsRepository
     val viewModel: NewsViewModel by viewModels()
 
     private var firstTimeInternetDisconnect: Boolean = false
@@ -53,18 +57,27 @@ class NewsActivity : AppCompatActivity() {
         }
 
         firstTimeInternetDisconnect = false
-        applicationBroadcastReceiver.hasInternetConnection.observe(this, { hasInternetConnection ->
-            if (hasInternetConnection){
+        applicationBroadcastReceiver.setOnInternetStateChangeListener { internetState ->
+            if (internetState == ApplicationBroadcastReceiver.HAS_INTERNET_CONNECTION){
                 if (firstTimeInternetDisconnect)
-                    Toast.makeText(this@NewsActivity,"Internet connected",
-                        Toast.LENGTH_SHORT).show()
+                Snackbar.make(binding.root, "Internet connected", Snackbar.LENGTH_LONG).run {
+                    anchorView = binding.bottomNavigationView
+                    show()
+                }
+                newsRepository.hasInternetConnection = true
+
             }else{
-                Toast.makeText(this@NewsActivity,"No internet connection",
-                    Toast.LENGTH_SHORT).show()
+                Snackbar.make(binding.root, "No internet connection", Snackbar.LENGTH_LONG).run {
+                    anchorView = binding.bottomNavigationView
+                    show()
+                }
                 if (!firstTimeInternetDisconnect)
                     firstTimeInternetDisconnect = true
+
+                newsRepository.hasInternetConnection = false
             }
-        })
+            viewModel.getTopNewsHeadlines(COUNTRY)
+        }
 
 
     }
@@ -97,8 +110,5 @@ class NewsActivity : AppCompatActivity() {
         super.onStop()
         unregisterReceiver(applicationBroadcastReceiver)
     }
-
-
-
 
 }

@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import dagger.hilt.android.scopes.ActivityScoped
 import vn.edu.trunghieu.newsapp.databinding.ItemArticleBinding
 import vn.edu.trunghieu.newsapp.model.Article
 import java.text.ParseException
@@ -15,6 +16,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 
+@ActivityScoped
 class NewsAdapter @Inject constructor() : ListAdapter<Article, NewsAdapter.ArticleViewHolder>(ArticleDiffCallback()) {
 
     class ArticleViewHolder(val binding: ItemArticleBinding) : RecyclerView.ViewHolder(binding.root)

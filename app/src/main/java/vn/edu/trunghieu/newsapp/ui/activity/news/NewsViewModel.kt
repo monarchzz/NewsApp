@@ -1,5 +1,6 @@
 package vn.edu.trunghieu.newsapp.ui.activity.news
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -9,17 +10,15 @@ import retrofit2.Response
 import vn.edu.trunghieu.newsapp.model.Article
 import vn.edu.trunghieu.newsapp.model.NewsResponse
 import vn.edu.trunghieu.newsapp.repository.NewsRepository
-import vn.edu.trunghieu.newsapp.util.ApplicationBroadcastReceiver
+import vn.edu.trunghieu.newsapp.ApplicationBroadcastReceiver
 import vn.edu.trunghieu.newsapp.util.Constants.COUNTRY
 import vn.edu.trunghieu.newsapp.util.Constants.GET_DATA_TIMEOUT
-import vn.edu.trunghieu.newsapp.util.Constants.INTERNET_STATE_DELAY
 import vn.edu.trunghieu.newsapp.util.Resource
 import java.io.IOException
 import javax.inject.Inject
 
 @HiltViewModel
 class NewsViewModel @Inject constructor(
-    private val applicationBroadcastReceiver: ApplicationBroadcastReceiver,
     private val newsRepository: NewsRepository
 ) : ViewModel(){
 
@@ -28,15 +27,14 @@ class NewsViewModel @Inject constructor(
     private var topNewsHeadlinesResponse : NewsResponse? = null
 
 
-
     fun clearTopNewsHeadLines(){
         topNewsHeadlinesPage = 1
         topNewsHeadlinesResponse = null
+
     }
 
     init {
         topNewsHeadlines.postValue(Resource.Loading())
-        getTopNewsHeadlines(COUNTRY)
     }
 
     suspend fun isArticleSaved(article: Article) : Boolean {
@@ -65,11 +63,7 @@ class NewsViewModel @Inject constructor(
     fun getTopNewsHeadlines(country: String) = viewModelScope.launch {
         try {
             withTimeout(GET_DATA_TIMEOUT){
-                if (applicationBroadcastReceiver.hasInternetConnection.value == null){
-                    delay(INTERNET_STATE_DELAY)
-                }
-                val hasNetworkConnection = applicationBroadcastReceiver.hasInternetConnection.value
-                if (hasNetworkConnection!= null && hasNetworkConnection){
+                if (newsRepository.hasInternetConnection){
                     val response = newsRepository.getTopNewsHeadlines(country, topNewsHeadlinesPage)
                     topNewsHeadlines.postValue(handleTopNewsHeadlinesResponse(response))
                 }else {

@@ -4,7 +4,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.scopes.ViewModelScoped
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withTimeout
@@ -12,7 +11,7 @@ import retrofit2.Response
 import vn.edu.trunghieu.newsapp.model.Article
 import vn.edu.trunghieu.newsapp.model.NewsResponse
 import vn.edu.trunghieu.newsapp.repository.NewsRepository
-import vn.edu.trunghieu.newsapp.util.ApplicationBroadcastReceiver
+import vn.edu.trunghieu.newsapp.ApplicationBroadcastReceiver
 import vn.edu.trunghieu.newsapp.util.Constants
 import vn.edu.trunghieu.newsapp.util.Resource
 import java.io.IOException
@@ -20,7 +19,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SearchNewsViewModel @Inject constructor(
-    private val applicationBroadcastReceiver: ApplicationBroadcastReceiver,
     private val newsRepository: NewsRepository
 ) : ViewModel() {
 
@@ -33,12 +31,11 @@ class SearchNewsViewModel @Inject constructor(
         searchNewsResponse = null
     }
 
-
     fun searchNews(searchQuery: String ) = viewModelScope.launch {
         searchNews.postValue(Resource.Loading())
         try {
             withTimeout(Constants.GET_DATA_TIMEOUT){
-                if (applicationBroadcastReceiver.hasInternetConnection.value!!){
+                if (newsRepository.hasInternetConnection){
                     val response = newsRepository.searchForNews(searchQuery, searchNewsPage)
                     searchNews.postValue(handleSearchForNewsResponse(response))
                 }else {

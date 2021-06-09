@@ -100,6 +100,7 @@ class SavedNewsFragment : Fragment() {
 
                     bottomSheetFragment.dismiss()
                     Snackbar.make(binding.root, "Deleted article successfully!", Snackbar.LENGTH_LONG).apply {
+                        anchorView = activityNewsBinding.bottomNavigationView
                         setAction("Undo"){
                             viewModel.saveNews(article)
                         }
@@ -146,12 +147,13 @@ class SavedNewsFragment : Fragment() {
         }
 
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-            val position = viewHolder.adapterPosition
+            val position = viewHolder.bindingAdapterPosition
             val article = newsAdapter.currentList[position]
 
             viewModel.deleteNews(article)
 
             Snackbar.make(binding.root, "Deleted article successfully!", Snackbar.LENGTH_LONG).apply {
+                anchorView = activityNewsBinding.bottomNavigationView
                 setAction("Undo"){
                     viewModel.saveNews(article)
                 }
