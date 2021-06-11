@@ -11,7 +11,7 @@ class NewsRepository @Inject constructor(
     private val articleDao: ArticleDao,
     private val api: NewsApi
 ) {
-    var hasInternetConnection: Boolean = false
+    var hasInternetConnection: Boolean = true
 
     suspend fun getTopNewsHeadlines(country: String, pageNumber: Int) = api.getTopHeadlines(country,pageNumber)
 

@@ -14,4 +14,6 @@ class NewsApplication : Application(){
 
         appSetting.applySettingTheme()
     }
+
+
 }

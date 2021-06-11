@@ -1,6 +1,5 @@
 package vn.edu.trunghieu.newsapp.ui.activity.news
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,8 +9,6 @@ import retrofit2.Response
 import vn.edu.trunghieu.newsapp.model.Article
 import vn.edu.trunghieu.newsapp.model.NewsResponse
 import vn.edu.trunghieu.newsapp.repository.NewsRepository
-import vn.edu.trunghieu.newsapp.ApplicationBroadcastReceiver
-import vn.edu.trunghieu.newsapp.util.Constants.COUNTRY
 import vn.edu.trunghieu.newsapp.util.Constants.GET_DATA_TIMEOUT
 import vn.edu.trunghieu.newsapp.util.Resource
 import java.io.IOException
@@ -25,16 +22,23 @@ class NewsViewModel @Inject constructor(
     val topNewsHeadlines: MutableLiveData<Resource<NewsResponse>> = MutableLiveData()
     var topNewsHeadlinesPage = 1
     private var topNewsHeadlinesResponse : NewsResponse? = null
+    private var isGetTNHLFTheFirstTime = true
 
+    init {
+        topNewsHeadlines.postValue(Resource.Loading())
+    }
+
+    fun getTopNewsHeadlinesOneTime(country: String){
+        if (isGetTNHLFTheFirstTime){
+            isGetTNHLFTheFirstTime = false
+            clearTopNewsHeadLines()
+            getTopNewsHeadlines(country)
+        }
+    }
 
     fun clearTopNewsHeadLines(){
         topNewsHeadlinesPage = 1
         topNewsHeadlinesResponse = null
-
-    }
-
-    init {
-        topNewsHeadlines.postValue(Resource.Loading())
     }
 
     suspend fun isArticleSaved(article: Article) : Boolean {

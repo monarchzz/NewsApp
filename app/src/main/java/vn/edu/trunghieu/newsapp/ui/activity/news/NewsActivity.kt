@@ -32,7 +32,7 @@ class NewsActivity : AppCompatActivity() {
     @Inject lateinit var newsRepository: NewsRepository
     val viewModel: NewsViewModel by viewModels()
 
-    private var firstTimeInternetDisconnect: Boolean = false
+    private var isInternetStateObserved: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,28 +55,24 @@ class NewsActivity : AppCompatActivity() {
         binding.apply {
             bottomNavigationView.setupWithNavController(navController)
         }
-
-        firstTimeInternetDisconnect = false
+        isInternetStateObserved = false
         applicationBroadcastReceiver.hasInternetConnection.observe(this, { hasInternetConnection ->
             if (hasInternetConnection){
-                if (firstTimeInternetDisconnect)
+                if (isInternetStateObserved){
                     Snackbar.make(binding.root, "Internet connected", Snackbar.LENGTH_LONG).run {
                         anchorView = binding.bottomNavigationView
                         show()
                     }
-                newsRepository.hasInternetConnection = true
-
+                }
             }else{
                 Snackbar.make(binding.root, "No internet connection", Snackbar.LENGTH_LONG).run {
                     anchorView = binding.bottomNavigationView
                     show()
                 }
-                if (!firstTimeInternetDisconnect)
-                    firstTimeInternetDisconnect = true
-
-                newsRepository.hasInternetConnection = false
+                isInternetStateObserved = true
             }
-            viewModel.getTopNewsHeadlines(COUNTRY)
+            newsRepository.hasInternetConnection = hasInternetConnection
+            viewModel.getTopNewsHeadlinesOneTime(COUNTRY)
         })
 
     }
@@ -103,7 +99,7 @@ class NewsActivity : AppCompatActivity() {
 
         val intentFilter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
         registerReceiver(applicationBroadcastReceiver, intentFilter)
-        firstTimeInternetDisconnect = false // reset
+        isInternetStateObserved = false // reset
     }
 
     override fun onStop() {

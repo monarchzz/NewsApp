@@ -58,6 +58,7 @@ class SearchNewsActivity : AppCompatActivity() {
         searchNews()
 
         applicationBroadcastReceiver.hasInternetConnection.observe(this, { hasInternetConnection ->
+            if (hasInternetConnection == newsRepository.hasInternetConnection) return@observe
             newsRepository.hasInternetConnection = hasInternetConnection
             showMessageInternetState()
         })
