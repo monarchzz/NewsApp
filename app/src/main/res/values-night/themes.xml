@@ -28,6 +28,8 @@
         <item name="icon_color">@color/dark_icon</item>
 
         <item name="autoCompleteTextViewStyle">@style/searchViewStyle</item>
+
+        <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
     </style>
 
     <style name="searchViewStyle" parent="Widget.AppCompat.AutoCompleteTextView">
@@ -50,5 +52,15 @@
 
     <style name="SplashscreenTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="android:windowBackground">@drawable/splash_background_dark</item>
+    </style>
+
+    <style name="AppBottomSheetDialogTheme"
+        parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/AppModalStyle</item>
+    </style>
+
+    <style name="AppModalStyle"
+        parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/bottom_sheet_background</item>
     </style>
 </resources>
