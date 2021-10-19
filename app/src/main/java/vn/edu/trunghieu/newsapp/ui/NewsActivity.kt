@@ -1,35 +1,37 @@
-package vn.edu.trunghieu.newsapp.ui.activity.news
+package vn.edu.trunghieu.newsapp.ui
 
 import android.content.Intent
 import android.content.IntentFilter
 import android.graphics.drawable.Drawable
-import androidx.appcompat.app.AppCompatActivity
+import android.net.ConnectivityManager
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import vn.edu.trunghieu.newsapp.ApplicationBroadcastReceiver
 import vn.edu.trunghieu.newsapp.R
 import vn.edu.trunghieu.newsapp.databinding.ActivityNewsBinding
-import vn.edu.trunghieu.newsapp.ui.activity.searchnews.SearchNewsActivity
-import vn.edu.trunghieu.newsapp.ApplicationBroadcastReceiver
 import vn.edu.trunghieu.newsapp.repository.NewsRepository
 import vn.edu.trunghieu.newsapp.util.Constants.COUNTRY
+import vn.edu.trunghieu.newsapp.viewmodel.NewsViewModel
 import javax.inject.Inject
-import android.net.ConnectivityManager as ConnectivityManager
 
 @AndroidEntryPoint
 class NewsActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityNewsBinding
 
-    @Inject lateinit var applicationBroadcastReceiver: ApplicationBroadcastReceiver
-    @Inject lateinit var newsRepository: NewsRepository
+    @Inject
+    lateinit var applicationBroadcastReceiver: ApplicationBroadcastReceiver
+
+    @Inject
+    lateinit var newsRepository: NewsRepository
     val viewModel: NewsViewModel by viewModels()
 
     private var isInternetStateObserved: Boolean = false
@@ -44,7 +46,7 @@ class NewsActivity : AppCompatActivity() {
             setDisplayShowTitleEnabled(false)
             setDisplayHomeAsUpEnabled(true)
             val drawable: Drawable? = ContextCompat
-                .getDrawable(this@NewsActivity,R.drawable.ic_baseline_home_24)
+                .getDrawable(this@NewsActivity, R.drawable.ic_baseline_home_24)
             setHomeAsUpIndicator(drawable)
         }
 
@@ -57,14 +59,14 @@ class NewsActivity : AppCompatActivity() {
         }
         isInternetStateObserved = false
         applicationBroadcastReceiver.hasInternetConnection.observe(this, { hasInternetConnection ->
-            if (hasInternetConnection){
-                if (isInternetStateObserved){
+            if (hasInternetConnection) {
+                if (isInternetStateObserved) {
                     Snackbar.make(binding.root, "Internet connected", Snackbar.LENGTH_LONG).run {
                         anchorView = binding.bottomNavigationView
                         show()
                     }
                 }
-            }else{
+            } else {
                 Snackbar.make(binding.root, "No internet connection", Snackbar.LENGTH_LONG).run {
                     anchorView = binding.bottomNavigationView
                     show()
@@ -83,7 +85,7 @@ class NewsActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
+        when (item.itemId) {
             R.id.searchNews -> {
                 startActivity(Intent(this@NewsActivity, SearchNewsActivity::class.java))
             }

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.activity.news.NewsActivity">
+    tools:context=".ui.NewsActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar"

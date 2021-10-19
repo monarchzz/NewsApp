@@ -1,4 +1,4 @@
-package vn.edu.trunghieu.newsapp.ui.activity.searchnews
+package vn.edu.trunghieu.newsapp.ui
 
 import android.content.Intent
 import android.content.IntentFilter
@@ -20,12 +20,10 @@ import vn.edu.trunghieu.newsapp.adapters.NewsAdapter
 import vn.edu.trunghieu.newsapp.databinding.ActivitySearchNewsBinding
 import vn.edu.trunghieu.newsapp.model.Article
 import vn.edu.trunghieu.newsapp.model.ItemObjectBottomSheet
-import vn.edu.trunghieu.newsapp.ui.PaginationScrollListener
 import vn.edu.trunghieu.newsapp.ui.fragment.BottomSheetFragment
-import vn.edu.trunghieu.newsapp.ui.activity.NewsPageActivity
-import vn.edu.trunghieu.newsapp.ui.activity.article.ArticleActivity
 import vn.edu.trunghieu.newsapp.ApplicationBroadcastReceiver
 import vn.edu.trunghieu.newsapp.repository.NewsRepository
+import vn.edu.trunghieu.newsapp.viewmodel.SearchNewsViewModel
 import vn.edu.trunghieu.newsapp.util.Constants.COUNTRY
 import vn.edu.trunghieu.newsapp.util.Constants.LIMIT_PAGE
 import vn.edu.trunghieu.newsapp.util.Constants.QUERY_PAGE_SIZE

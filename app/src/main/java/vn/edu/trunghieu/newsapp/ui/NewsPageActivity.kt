@@ -1,4 +1,4 @@
-package vn.edu.trunghieu.newsapp.ui.activity
+package vn.edu.trunghieu.newsapp.ui
 
 import android.graphics.drawable.Drawable
 import androidx.appcompat.app.AppCompatActivity

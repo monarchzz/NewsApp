@@ -20,10 +20,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activity.article.ArticleActivity" />
-        <activity android:name=".ui.activity.NewsPageActivity" />
-        <activity android:name=".ui.activity.searchnews.SearchNewsActivity" />
-        <activity android:name=".ui.activity.news.NewsActivity"/>
+        <activity android:name=".ui.ArticleActivity" />
+        <activity android:name=".ui.NewsPageActivity" />
+        <activity android:name=".ui.SearchNewsActivity" />
+        <activity android:name=".ui.NewsActivity"/>
     </application>
 
 </manifest>

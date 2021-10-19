@@ -1,4 +1,4 @@
-package vn.edu.trunghieu.newsapp.ui.activity.news
+package vn.edu.trunghieu.newsapp.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

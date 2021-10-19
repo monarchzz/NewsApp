@@ -18,10 +18,10 @@ import vn.edu.trunghieu.newsapp.databinding.FragmentNewsListBinding
 import vn.edu.trunghieu.newsapp.model.Article
 import vn.edu.trunghieu.newsapp.model.ItemObjectBottomSheet
 import vn.edu.trunghieu.newsapp.ui.PaginationScrollListener
-import vn.edu.trunghieu.newsapp.ui.activity.news.NewsActivity
-import vn.edu.trunghieu.newsapp.ui.activity.news.NewsViewModel
-import vn.edu.trunghieu.newsapp.ui.activity.NewsPageActivity
-import vn.edu.trunghieu.newsapp.ui.activity.article.ArticleActivity
+import vn.edu.trunghieu.newsapp.ui.NewsActivity
+import vn.edu.trunghieu.newsapp.viewmodel.NewsViewModel
+import vn.edu.trunghieu.newsapp.ui.NewsPageActivity
+import vn.edu.trunghieu.newsapp.ui.ArticleActivity
 import vn.edu.trunghieu.newsapp.util.Constants
 import vn.edu.trunghieu.newsapp.util.Constants.COUNTRY
 import vn.edu.trunghieu.newsapp.util.Constants.QUERY_PAGE_SIZE

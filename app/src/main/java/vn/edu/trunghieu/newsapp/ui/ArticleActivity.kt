@@ -1,4 +1,4 @@
-package vn.edu.trunghieu.newsapp.ui.activity.article
+package vn.edu.trunghieu.newsapp.ui
 
 import android.content.Intent
 import android.graphics.drawable.Drawable
@@ -17,7 +17,7 @@ import kotlinx.coroutines.withContext
 import vn.edu.trunghieu.newsapp.R
 import vn.edu.trunghieu.newsapp.databinding.ActivityArticleBinding
 import vn.edu.trunghieu.newsapp.model.Article
-import vn.edu.trunghieu.newsapp.ui.activity.NewsPageActivity
+import vn.edu.trunghieu.newsapp.viewmodel.ArticleViewModel
 
 @AndroidEntryPoint
 class ArticleActivity : AppCompatActivity() {

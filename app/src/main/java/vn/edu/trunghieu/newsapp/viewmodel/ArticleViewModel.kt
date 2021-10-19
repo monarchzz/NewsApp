@@ -1,4 +1,4 @@
-package vn.edu.trunghieu.newsapp.ui.activity.article
+package vn.edu.trunghieu.newsapp.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

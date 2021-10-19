@@ -3,7 +3,6 @@ package vn.edu.trunghieu.newsapp.adapters
 import android.text.format.DateUtils
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -17,7 +16,8 @@ import java.util.*
 import javax.inject.Inject
 
 @ActivityScoped
-class NewsAdapter @Inject constructor() : ListAdapter<Article, NewsAdapter.ArticleViewHolder>(ArticleDiffCallback()) {
+class NewsAdapter @Inject constructor() :
+    ListAdapter<Article, NewsAdapter.ArticleViewHolder>(ArticleDiffCallback()) {
 
     class ArticleViewHolder(val binding: ItemArticleBinding) : RecyclerView.ViewHolder(binding.root)
 

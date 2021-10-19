@@ -1,4 +1,4 @@
-package vn.edu.trunghieu.newsapp.ui.activity.searchnews
+package vn.edu.trunghieu.newsapp.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,7 +11,6 @@ import retrofit2.Response
 import vn.edu.trunghieu.newsapp.model.Article
 import vn.edu.trunghieu.newsapp.model.NewsResponse
 import vn.edu.trunghieu.newsapp.repository.NewsRepository
-import vn.edu.trunghieu.newsapp.ApplicationBroadcastReceiver
 import vn.edu.trunghieu.newsapp.util.Constants
 import vn.edu.trunghieu.newsapp.util.Resource
 import java.io.IOException
